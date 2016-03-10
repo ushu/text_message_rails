@@ -65,6 +65,8 @@ ClientTextMessages.confirm_order(order).deliver_later!
 
 For the time being, only the `TextMagic` provider is supported.
 
+### TextMagic
+
 To use it, include it in you `Gemfile`:
 
 ```ruby
@@ -76,10 +78,17 @@ gem "text_magic"
 gem "phony_rails"
 ```
 
-And enable its use in the configuration:
+Enable its use in the configuration:
 
 ```ruby
 config.text_message.provider = :text_magic
+```
+
+And provision the following environment variables:
+
+```yaml
+TEXTMAGIC_USERNAME: "my textmagic user name"
+TEXTMAGIC_PASSWORD: "my textmagic password"
 ```
 
 ## Development
