@@ -7,19 +7,12 @@ module TextMessage
 	# To use it:
 	#
 	#  - implement action methods as in a "usual" controller
-	#  - implement the deliver_text_message that will receive the rendered sms instance to send
 	#
 	#   class TextMessageTest < TextMessage::Controller
 	#
 	#     # Will render app/views/sms_test/toto.(...), passing it the instance variables
 	#     def toto
 	#       @tutu = 4
-	#     end
-	#
-	#     def self.deliver_text_message(sms)
-	#       sms_text = sms.body
-	#       puts "delivering TextMessage: #{sms_text}"
-	#       #...
 	#     end
 	#
 	#   end
@@ -50,18 +43,21 @@ module TextMessage
 		end
 
 		class << self
-      attr_accessor :default_url_options
 
+      def default_url_options=(options)
+        @@default_url_options =  options
+      end
       # Reuses ActionMailer url options by default
       def default_url_options
-        super || ActionMailer::Base.default_url_options
+        @@default_url_options || ActionMailer::Base.default_url_options
       end
 
-      attr_accessor :provider
-
+      def provider=(p)
+        @@provider = p
+      end
       # Defaults provider to the Base (empty) provider: will raise !
       def provider
-        super || Providers::Base
+        @@provider || TextMessage::Providers::Base
       end
 
 			# Respond to the action methods directly on the class
@@ -83,11 +79,9 @@ module TextMessage
 			end
 
       def deliver_text_message(delivery)
-        provder.deliver_text_message(delivery)
+        provider.deliver_text_message(delivery)
       end
 		end
 	end
 
 end
-
-

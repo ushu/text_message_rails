@@ -12,11 +12,10 @@ module TextMessage
         Array(recipients).map { |recipient|
           PhonyRails.normalize_number(recipient, format: :international_relative, spaces: '', add_plus: false)
         }
-
       end
 
       def client
-        @client ||= TextMagic::API.new(username, password)
+        @client ||= ::TextMagic::API.new(username, password)
       end
 
       private
@@ -32,4 +31,3 @@ module TextMessage
 
   end
 end
-

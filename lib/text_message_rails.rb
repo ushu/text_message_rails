@@ -7,6 +7,7 @@ module TextMessage
   autoload :DeliveryJob, "text_message_rails/delivery_job"
   autoload :DeliveryMethods, "text_message_rails/delivery_methods"
   autoload :Rendering, "text_message_rails/rendering"
+  autoload :Providers, "text_message_rails/providers"
 
 end
 

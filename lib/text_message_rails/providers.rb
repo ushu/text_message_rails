@@ -3,15 +3,14 @@ module TextMessage
     class Error < StandardError; end
 
     def self.find(name)
-      provider_name = name.to_s.camelize.to_sym
-      ::TextMessage::Providers.const_get(provider_name)
+      "TextMessage::Providers::#{name.to_s.camelize}".constantize
     end
 
     class Base
       attr_reader :delivery
       attr_reader :options
 
-      def self.deliver_text_message(delivery, options)
+      def self.deliver_text_message(delivery, options={})
         new(delivery, options).deliver_text_message
       end
 
@@ -34,6 +33,6 @@ module TextMessage
     end
 
     # Known providers
-    autoload :TextMagicProvider, "text_message_rails/providers/text_magic" if defined?(TextMagic)
+    autoload :TextMagic, "text_message_rails/providers/text_magic" if defined?(::TextMagic)
   end
 end

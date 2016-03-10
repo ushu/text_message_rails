@@ -12,7 +12,7 @@ module TextMessage
       end
 
       if provider_key = app_options.provider
-        TextMessage::Controller.default_provider = TextMessage::Providers.find(provider_key)
+        TextMessage::Controller.provider = TextMessage::Providers.find(provider_key)
       end
     end
   end
