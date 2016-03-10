@@ -6,7 +6,6 @@ module TextMessage
     # Defivers a TextMessage
     def deliver_now!
       @text_message_class.deliver_text_message(self)
-      @text_message_class.track_delivery(self)
     end
 
     # Posts a ActionJob job to call +deliver_now!+ later

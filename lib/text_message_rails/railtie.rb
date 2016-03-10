@@ -10,6 +10,10 @@ module TextMessage
       if default_url_options = app_options.default_url_options
         TextMessage::Controller.default_url_options = default_url_options
       end
+
+      if provider_key = app_options.provider
+        TextMessage::Controller.default_provider = TextMessage::Providers.find(provider_key)
+      end
     end
   end
 end

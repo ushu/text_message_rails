@@ -7,7 +7,7 @@ A simple gem to send text messages from rails
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'text-message-rails'
+gem 'text_message_rails'
 ```
 
 And then execute:
@@ -16,32 +16,22 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install text-message-rails
+    $ gem install text_message_rails
 
 ## Usage
 
-A base text message sender must be created, as follows:
+In your application config, define the provider you want ot use (for now on,
+only TextMagic is supported):
 
 ```ruby
-class ApplictionTextMessages < TextMessage::Controller
-
-  # This method is called with the TextMessage::Delivery as an argument
-  def self.deliver_text_message(text_message)
-    message = text_message.body.to_str
-    recipients = text_message.recipients.map(&:to_str)
-
-    unless recipients.empty?
-      TextMessageService.send_message(message, to: recipients)
-    end
-  end
-
-end
+config.text_message.provider = :text_magic
 ```
 
-Then the sub-classes can be used in a similar way as ActionMailer::Base objects:
+Then create instances of the `TextMessage::Controller`:
+
 
 ```ruby
-class ClientTextMessages < ApplicationTextMessages
+class ClientTextMessages < TextMessage::Controller
 
   def confirm_order(order)
     @order = order
@@ -56,17 +46,40 @@ class ClientTextMessages < ApplicationTextMessages
 end
 ```
 
+And associated view(s):
+
 ```erb
 <%# in app/views/client_text_messages/confirm_order.text.erb %>
 Dear <%= user.name %> your order <%= order.id %> is confirmed !
 ```
 
-in a different class:
+Then from a different class, call:
 
 ```ruby
 ClientTextMessages.confirm_order(order).deliver_now!
 # or
 ClientTextMessages.confirm_order(order).deliver_later!
+```
+
+## Provider
+
+For the time being, only the `TextMagic` provider is supported.
+
+To use it, include it in you `Gemfile`:
+
+```ruby
+# include the API gem
+gem "text_magic"
+
+# (optional but recommanded) include Phony Rails so the provider will reformat
+# the phone number in TextMagic-friendly way:
+gem "phony_rails"
+```
+
+And enable its use in the configuration:
+
+```ruby
+config.text_message.provider = :text_magic
 ```
 
 ## Development
@@ -77,7 +90,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/text-message-rails. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/text_message_rails. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 
 ## License

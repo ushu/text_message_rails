@@ -34,17 +34,6 @@ module TextMessage
 		# Defines #render_to_body, needed by #render.
 		include ::TextMessage::Rendering
 
-		# Adds delivery tracking behaviour
-		include ::TextMessage::DeliveryTracking
-
-		def self.default_url_options=(options)
-      @@default_url_options = options
-		end
-		# Reuses ActionMailer url options by default
-		def self.default_url_options
-			@@default_url_options || ActionMailer::Base.default_url_options
-		end
-
 		# Instanciate a new TextMessage object.
 		#
 		# Then calls +method_name+ with the given +args+.
@@ -61,6 +50,19 @@ module TextMessage
 		end
 
 		class << self
+      attr_accessor :default_url_options
+
+      # Reuses ActionMailer url options by default
+      def default_url_options
+        super || ActionMailer::Base.default_url_options
+      end
+
+      attr_accessor :provider
+
+      # Defaults provider to the Base (empty) provider: will raise !
+      def provider
+        super || Providers::Base
+      end
 
 			# Respond to the action methods directly on the class
 			#
@@ -79,6 +81,10 @@ module TextMessage
 					super
 				end
 			end
+
+      def deliver_text_message(delivery)
+        provder.deliver_text_message(delivery)
+      end
 		end
 	end
 
