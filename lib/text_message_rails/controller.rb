@@ -7,7 +7,7 @@ module TextMessage
 	# To use it:
 	#
 	#  - implement action methods as in a "usual" controller
-	#  - implement the deliver_sms that will receive the rendered sms instance to send
+	#  - implement the deliver_text_message that will receive the rendered sms instance to send
 	#
 	#   class TextMessageTest < TextMessage::Controller
 	#
@@ -16,7 +16,7 @@ module TextMessage
 	#       @tutu = 4
 	#     end
 	#
-	#     def self.deliver_sms(sms)
+	#     def self.deliver_text_message(sms)
 	#       sms_text = sms.body
 	#       puts "delivering TextMessage: #{sms_text}"
 	#       #...

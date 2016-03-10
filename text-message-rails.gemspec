@@ -4,13 +4,16 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'text_message_rails/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "text-messages-rails"
+  spec.name          = "text-message-rails"
   spec.version       = TextMessage::VERSION
   spec.authors       = ["Aurélien Noce"]
   spec.email         = ["aurelien.noce@imagine-app.fr"]
 
   spec.summary       = %q{Easy text messaging from Rails.}
-  spec.description   = %q{Simple ActionMail-like Text Message controllers for Rails 3+.}
+  spec.description   = %q{
+    Simple ActionMail-like Text Message controllers for Rails 3+.
+    (this is a *very* early version !)
+  }
   spec.homepage      = "http://github.com/ushu/text-messages-rails"
   spec.license       = "MIT"
 

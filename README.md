@@ -1,15 +1,13 @@
-# Text::Messages::Rails
+# text_message_rails
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/text/messages/rails`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+A simple gem to send text messages from rails
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'text-messages-rails'
+gem 'text-message-rails'
 ```
 
 And then execute:
@@ -18,11 +16,58 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install text-messages-rails
+    $ gem install text-message-rails
 
 ## Usage
 
-TODO: Write usage instructions here
+A base text message sender must be created, as follows:
+
+```ruby
+class ApplictionTextMessages < TextMessage::Controller
+
+  # This method is called with the TextMessage::Delivery as an argument
+  def self.deliver_text_message(text_message)
+    message = text_message.body.to_str
+    recipients = text_message.recipients.map(&:to_str)
+
+    unless recipients.empty?
+      TextMessageService.send_message(message, to: recipients)
+    end
+  end
+
+end
+```
+
+Then the sub-classes can be used in a similar way as ActionMailer::Base objects:
+
+```ruby
+class ClientTextMessages < ApplicationTextMessages
+
+  def confirm_order(order)
+    @order = order
+    @user = @order.user
+
+    # ...
+
+    phone_number = user.phone_number
+    send_to phone_number
+  end
+
+end
+```
+
+```erb
+<%# in app/views/client_text_messages/confirm_order.text.erb %>
+Dear <%= user.name %> your order <%= order.id %> is confirmed !
+```
+
+in a different class:
+
+```ruby
+ClientTextMessages.confirm_order(order).deliver_now!
+# or
+ClientTextMessages.confirm_order(order).deliver_later!
+```
 
 ## Development
 
@@ -32,7 +77,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/text-messages-rails. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/text-message-rails. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 
 ## License
