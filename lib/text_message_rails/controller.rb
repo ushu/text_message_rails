@@ -27,13 +27,16 @@ module TextMessage
 		# Defines #render_to_body, needed by #render.
 		include ::TextMessage::Rendering
 
+    attr_reader :params
+
 		# Instanciate a new TextMessage object.
 		#
 		# Then calls +method_name+ with the given +args+.
-		def initialize(method_name, *args)
+		def initialize(method_name, *params)
 			@recipients = []
+      @params = params
 			super()
-			process(method_name, *args)
+			process(method_name, *params)
 		end
 
 		# Basic Recipients handling
@@ -41,6 +44,10 @@ module TextMessage
 		def send_to(*recipients)
 			@recipients = recipients || []
 		end
+
+    def delivery
+      TextMessage::Delivery.new(self, action_name, *params)
+    end
 
 		class << self
 

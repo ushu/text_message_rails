@@ -17,7 +17,11 @@ module TextMessage
 
     # Use custom rendeing class with helpers loaded
     def view_context # :nodoc:
-      @view_context ||= TemplateContext.new(renderer, view_assigns, self)
+      @view_context ||= if defined?(ApplicationController)
+                          ApplicationController.view_context_class.new(renderer, view_assigns, self)
+                        else
+                           TemplateContext.new(renderer, view_assigns, self)
+                         end
     end
 
     # Simple out-of-the box ActionView::Renderer
@@ -28,20 +32,22 @@ module TextMessage
 
     #
     # Private class to render provide rendering context with helpers
+    # (when there is no ApplicationController: rails API etc.)
     #
 
     class TemplateContext < ActionView::Base #:nodoc:
       # Load route helpers
       include Rails.application.routes.url_helpers
-      # load tag helpers (link_to ...)
+      # load tag helpers (link_to ...) and all relevant default helpers
       include ActionView::Helpers::TagHelper
+      include ActionView::Helpers::DateHelper
+      include ActionView::Helpers::NumberHelper
+      include ActionView::Helpers::TextHelper
+      include ActionView::Helpers::TranslationHelper
 
       # Default options for urls
       def default_url_options
-        TextMessage::Controller.default_url_options.merge({
-          #action: action_name,
-          #controller: controller.class.name.underscore
-        })
+        TextMessage::Controller.default_url_options
       end
     end
 
