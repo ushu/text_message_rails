@@ -14,7 +14,7 @@ Gem::Specification.new do |spec|
     Simple ActionMail-like Text Message controllers for Rails 3+.
     (this is a *very* early version !)
   }
-  spec.homepage      = "http://github.com/ushu/text-messages-rails"
+  spec.homepage      = "http://github.com/ushu/text-message-rails"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
