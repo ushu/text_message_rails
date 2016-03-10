@@ -37,9 +37,12 @@ module TextMessage
 		# Adds delivery tracking behaviour
 		include ::TextMessage::DeliveryTracking
 
-		# Reuses ActionMailer url options
+		def self.default_url_options=(options)
+      @@default_url_options = options
+		end
+		# Reuses ActionMailer url options by default
 		def self.default_url_options
-			ActionMailer::Base.default_url_options
+			@@default_url_options || ActionMailer::Base.default_url_options
 		end
 
 		# Instanciate a new TextMessage object.

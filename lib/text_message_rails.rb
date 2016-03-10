@@ -10,3 +10,5 @@ module TextMessage
   autoload :Rendering, "text_message_rails/rendering"
 
 end
+
+require "text_message_rails/railtie" if defined?(::Rails::Railtie)

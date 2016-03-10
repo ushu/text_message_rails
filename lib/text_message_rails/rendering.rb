@@ -38,7 +38,7 @@ module TextMessage
 
       # Default options for urls
       def default_url_options
-        TextMessage::Base.default_url_options.merge({
+        TextMessage::Controller.default_url_options.merge({
           #action: action_name,
           #controller: controller.class.name.underscore
         })
