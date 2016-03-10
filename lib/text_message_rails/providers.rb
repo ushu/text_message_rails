@@ -24,12 +24,14 @@ module TextMessage
       end
 
       def message
-        delivery.body.to_str
+        delivery.body.to_s
       end
 
       def recipients
-        delivery.recipients.map(&:to_str)
+        delivery.recipients.map(&:to_s)
       end
+
+      delegate :logger, to: Rails
     end
 
     # Known providers

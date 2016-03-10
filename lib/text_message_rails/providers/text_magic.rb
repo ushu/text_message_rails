@@ -3,6 +3,7 @@ module TextMessage
 
     class TextMagic < Base
       def deliver_text_message
+        logger.debug "Delivering message to #{escaped_recipients.join(', ')}"
         client.send(message, *escaped_recipients, options)
       end
 
