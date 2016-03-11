@@ -50,20 +50,21 @@ module TextMessage
 
 		class << self
 
+      @@default_url_options = nil
       def default_url_options=(options)
-        @@default_url_options =  options
+        @@default_url_options = options
       end
       # Reuses ActionMailer url options by default
       def default_url_options
         @@default_url_options || ActionMailer::Base.default_url_options
       end
 
-      def provider=(p)
-        @@provider = p
+      @@provider = nil
+      def provider=(provider)
+        @@provider = provider; 
       end
-      # Defaults provider to the Base (empty) provider: will raise !
       def provider
-        @@provider || TextMessage::Providers::Base
+        @@provider || TextMessage::Providers::Base;
       end
 
 			# Respond to the action methods directly on the class
