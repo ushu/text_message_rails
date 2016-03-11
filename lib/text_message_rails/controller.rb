@@ -4,9 +4,8 @@ module TextMessage
 
 	# = TextMessage controller base class
 	# This class acts as a controller, similar to +ActionMailer::Controller+ subclasses.
-	# To use it:
-	#
-	#  - implement action methods as in a "usual" controller
+  #
+	# To use it implement action methods as in a mailer:
 	#
 	#   class TextMessageTest < TextMessage::Controller
 	#
