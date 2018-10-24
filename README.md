@@ -1,5 +1,7 @@
 # text_message_rails
 
+**DEPRECATED: this gem is not maintained anymore, use at you own risks !**
+
 A simple gem to send text messages from rails
 
 ## Installation
